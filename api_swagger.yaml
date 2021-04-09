@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  version: v20210408.0.0
+  title: ・青空文庫REST API
+  termsOfService: http://hoge.xxxx.com
+  contact:
+    email: dev.gigantlullaby@gmail.com
+  license:
+    name: akihiro.sato all right reserved.
+tags:
+  - name: writer_search
+    description: search writer by keyword
+paths:
+  /v1.0/writer/search:
+    post:
+      tags:
+        - writer_search
+      summary: 作家情報の検索
+      description: "キーワードから、該当する作家を検索して、作家の情報を返す"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WriterSearchRequestBody"
+        description: analyze request parameters
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WriterSearchResponseBody"
+components:
+  schemas:
+    WriterSearchRequestBody:
+      type: object
+      required:
+        - keyword
+      properties:
+        keyword:
+          type: string
+          description: "作家キーワード"
+          example: "宮沢賢治"
+    WriterSearchResponseBody:
+      type: object
+      properties:
+        writer_name:
+          type: string
+          description: "作家名"
+        writer_kana_name:
+          type: string
+          description: "作家名読み"
+        writer_roman_name:
+          type: string
+          description: "作家名ローマ字表記"
+        birth_day:
+          type: string
+          description: "生年月日"
+        death_day:
+          type: string
+          description: "没年月日"
+        about_person:
+          type: string
+          description: "人物概要"
+        wiki_url:
+          type: string
+          description: "WikipediaのURL"
+        product_id_list:
+          type: array
+          description: "作品IDリスト"
+          items:
+            type: object
+            required:
+              - product_id
+            properties:
+              product_id:
+                type: string
+                description: "作品ID"
